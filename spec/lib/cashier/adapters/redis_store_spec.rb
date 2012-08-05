@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Cashier::Adapters::RedisStore do
   subject { Cashier::Adapters::RedisStore }
+
   let(:cache) { Rails.cache }
   let(:redis) { subject.redis }
 
