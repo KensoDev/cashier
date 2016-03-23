@@ -5,7 +5,7 @@ describe "Rails cache integration" do
   let(:cashier) { Cashier }
 
   it "should ensure that cache operations are instrumented" do
-    ActiveSupport::Cache::Store.instrument.should be_true
+    expect(ActiveSupport::Cache::Store.instrument).to eq(true)
   end
 
   context "write" do

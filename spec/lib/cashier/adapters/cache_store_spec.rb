@@ -1,5 +1,5 @@
 require 'spec_helper'
-  
+
 describe Cashier::Adapters::CacheStore do
   subject { Cashier::Adapters::CacheStore }
   let(:cache) { Rails.cache }
@@ -37,7 +37,7 @@ describe Cashier::Adapters::CacheStore do
 
   it "should return the tags correctly" do
     subject.store_tags(["tag-1", "tag-2", "tag-3"])
-    subject.tags.include?("tag-1").should be_true
+    expect(subject.tags).to include("tag-1")
   end
 
   it "should remove tags from the tags list" do

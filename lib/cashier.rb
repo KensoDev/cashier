@@ -41,13 +41,13 @@ module Cashier
     end
 
     # Public: expire tags. expiring the keys 'assigned' to the tags you expire and removes the tags from the tags list
-    # 
+    #
     # tags - array of tags to expire.
-    # 
+    #
     # Examples
     #
     #   Cashier.expire('tag1', 'tag2')
-    # 
+    #
     def expire(*tags)
       return unless perform_caching?
 
@@ -131,14 +131,14 @@ module Cashier
       adapter.get_fragments_for_tag(tag)
     end
 
-    # Public: adapter which is used by cashier. 
+    # Public: adapter which is used by cashier.
     # Defaults to :cache_store
     #
     # Examples
     #
     #   Cashier.adapter
     #   # => Cashier::Adapters::CacheStore
-    # 
+    #
     #   Cashier.adapter
     #   # => Cashier::Adapters::RedisStore
     #

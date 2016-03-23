@@ -8,11 +8,11 @@ describe Cashier::Adapters::RedisStore do
 
   context "setting and getting the redis instance" do
     it "should allow to set the redis instance" do
-      subject.respond_to?(:redis=).should be_true
+      expect(subject).to respond_to(:redis=)
     end
 
     it "should allow to get the redis instance" do
-      subject.respond_to?(:redis).should be_true
+      expect(subject).to respond_to(:redis)
     end
   end
 
@@ -41,10 +41,10 @@ describe Cashier::Adapters::RedisStore do
 
   it "should delete a tag from the cache" do
     subject.store_fragment_in_tag('fragment-key', 'dashboard')
-    redis.smembers('dashboard').should_not be_nil
+    expect(redis.smembers('dashboard')).to_not eq(nil)
 
     subject.delete_tag('dashboard')
-    redis.exists('dashboard').should be_false
+    expect(redis.exists('dashboard')).to eq(false)
   end
 
   it "should return the list of tags" do
@@ -54,7 +54,7 @@ describe Cashier::Adapters::RedisStore do
 
   it "should return the tags correctly" do
     subject.store_tags(["tag-1", "tag-2", "tag-3"])
-    subject.tags.include?("tag-1").should be_true
+    expect(subject.tags).to include("tag-1")
   end
 
   it "should remove tags from the tags list" do

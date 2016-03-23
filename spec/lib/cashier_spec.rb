@@ -60,14 +60,14 @@ describe "Cashier" do
     end
 
     it "should remove delete the fragment key" do
-      adapter.should_receive(:get_fragments_for_tag).with('dashboard').and_return(["fragment-key"])
-      adapter.should_receive(:delete_tag).with('dashboard')
-      adapter.should_receive(:remove_tags).with(['dashboard'])
+      expect(adapter).to receive(:get_fragments_for_tag).with('dashboard').and_return(["fragment-key"])
+      expect(adapter).to receive(:delete_tag).with('dashboard')
+      expect(adapter).to receive(:remove_tags).with(['dashboard'])
 
       subject.expire('dashboard')
     end
 
-    it "should remove the tag" do 
+    it "should remove the tag" do
       adapter.should_receive(:get_fragments_for_tag).with('dashboard').and_return([])
       adapter.should_receive(:delete_tag).with('dashboard')
       adapter.should_receive(:remove_tags).with(['dashboard'])
@@ -107,14 +107,14 @@ describe "Cashier" do
 
     it "should expire all tagged fragments" do
       cache.write('a_cache_key', 'foo', tag: 'dashboard')
-      cache.exist?('a_cache_key').should be_true
+      expect(cache.exist?('a_cache_key')).to eq(true)
       subject.clear
-      cache.exist?('a_cache_key').should be_false
+      expect(cache.exist?('a_cache_key')).to eq(false)
     end
 
-    it "should expire all tags" do 
+    it "should expire all tags" do
       subject.clear
-      cache.exist?('a_cache_key').should be_false
+      expect(cache.exist?('a_cache_key')).to eq(false)
     end
 
     it "should clear the list of tracked tags" do
@@ -138,10 +138,10 @@ describe "Cashier" do
   end
 
   it "should allow me to set the adapter" do
-    subject.respond_to?(:adapter=).should be_true
+    expect(subject).to respond_to(:adapter=)
   end
 
   it "shold allow to get the adapter" do
-    subject.respond_to?(:adapter).should be_true
+    expect(subject).to respond_to(:adapter)
   end
 end

@@ -26,7 +26,11 @@ module Cashier
       end
 
       def self.get_fragments_for_tag(tag)
-        redis.smembers(tag) || []
+        fragments = []
+        while (fragment = redis.spop(tag)) != nil
+          fragments << fragment
+        end
+        fragments
       end
 
       def self.delete_tag(tag)
