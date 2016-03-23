@@ -1,5 +1,15 @@
 # Cashier: Tag Based Caching for Rails
 
+[![Build Status](https://secure.travis-ci.org/twinturbo/cashier.png?branch=master)][travis]
+[![Gem Version](https://badge.fury.io/rb/cashier.png)][gem]
+[![Code Climate](https://codeclimate.com/github/twinturbo/cashier.png)][codeclimate]
+[![Dependency Status](https://gemnasium.com/twinturbo/cashier.png?travis)][gemnasium]
+
+[gem]: https://rubygems.org/gems/cashier
+[travis]: http://travis-ci.org/twinturbo/cashier
+[gemnasium]: https://gemnasium.com/twinturbo/cashier
+[codeclimate]: https://codeclimate.com/github/twinturbo/cashier
+
 Manage your cache keys with tags, forget about keys!
 
 ## What Is It?
@@ -48,7 +58,7 @@ Rails.cache.write("foo", "bar", :tag => ["some_tag"])
 # what's cached
 Cashier.tags
 
-# sweep all stored keys
+# Clears out all tagged keys and tags
 Cashier.clear
 ```
 
@@ -141,30 +151,36 @@ The events are sent out through `ActiveSupport::Notifications` so you can pretty
 Here are the way you can subscribe to the events and use the data from them.
 
 ```ruby
-	# Subscribe to the store fragment event, this is fired every time cashier will call the "store_fragment" method
-	# payload[:data] will be something like this: ["key", ["tag1", "tag2", "tag3"]]
-	ActiveSupport::Notifications.subscribe("store_fragment.cashier") do |name, start, finish, id, payload|
-				
-	end
-	
-	# Subscribe to the clear event. (no data)
-	ActiveSupport::Notifications.subscribe("clear.cashier") do |name, start, finish, id, payload|
-				
-	end	
-	
-	# Subscribe to the delete_cache_key event
-	# this event will fire every time there's a Rails.cache.delete with the key
-	# payload[:data] will be the key name that's been deleted from the cache
-	ActiveSupport::Notifications.subscribe("delete_cache_key.cashier") do |name, start, finish, id, payload|
-				
-	end	
+# Subscribe to the store fragment event, this is fired every time cashier will call the "store_fragment" method
+# payload[:data] will be something like this: ["key", ["tag1", "tag2", "tag3"]]
+ActiveSupport::Notifications.subscribe("store_fragment.cashier") do |name, start, finish, id, payload|
+		
+end
 
-	# Subscribe to the o_write_cache_key event
-	# this event will fire every time there's a Rails.cache.write with the key
-	# payload[:data] will be the key name that's been written to the cache
-	ActiveSupport::Notifications.subscribe("write_cache_key.cashier") do |name, start, finish, id, payload|
-				
-	end		
+# Subscribe to the expire event.
+# payload[:data] will be the list of tags expired.
+ActiveSupport::Notifications.subscribe("expire.cashier") do |name, start, finish, id, payload|
+    
+end 
+
+# Subscribe to the clear event. (no data)
+ActiveSupport::Notifications.subscribe("clear.cashier") do |name, start, finish, id, payload|
+    
+end 
+
+# Subscribe to the delete_cache_key event
+# this event will fire every time there's a Rails.cache.delete with the key
+# payload[:data] will be the key name that's been deleted from the cache
+ActiveSupport::Notifications.subscribe("delete_cache_key.cashier") do |name, start, finish, id, payload|
+		
+end	
+
+# Subscribe to the o_write_cache_key event
+# this event will fire every time there's a Rails.cache.write with the key
+# payload[:data] will be the key name that's been written to the cache
+ActiveSupport::Notifications.subscribe("write_cache_key.cashier") do |name, start, finish, id, payload|
+		
+end		
 ```
 
 ### Notifications use case
